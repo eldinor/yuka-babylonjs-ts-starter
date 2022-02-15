@@ -1,2 +1,3 @@
-# yuka-babylonjs-ts-starter
-Yuka Game AI + Babylon.js Typescript Starter
+# Yuka Game AI + Babylon.js Typescript Starter
+
+Based on https://github.com/RaananW/babylonjs-webpack-es6
