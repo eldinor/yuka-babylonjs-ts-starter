@@ -293,7 +293,7 @@ export class NavigationMeshPerformanceScene implements CreateSceneClass {
 
     // YUKA specific
     private _onPathFound(vehicle: CustomVehicle, path: YUKA.Vector3[]) {
-        // update the path helper mesh - BabylonJS specific
+        // update the path helper mesh - calls BabylonJS specific code
         const index = this._vehicles.indexOf(vehicle)
         this._onPathFoundUpdatePathHelper(
             index,
