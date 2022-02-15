@@ -5,7 +5,6 @@
 // to distinguish between classes with the same name in YUKA and BabylonJS all YUKA classes
 // are prefixed with YUKA in this class
 import * as YUKA from 'yuka'
-import * as DAT from 'dat.gui'
 
 //
 
@@ -17,14 +16,11 @@ import {
     Color4,
     DirectionalLight,
     Engine,
-    FramingBehavior,
     HemisphericLight,
-    LinesMesh,
     Matrix,
     Mesh,
     MeshBuilder,
     Scene,
-    SceneLoader,
     StandardMaterial,
     TransformNode,
     Vector3,
