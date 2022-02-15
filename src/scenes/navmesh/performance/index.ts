@@ -353,11 +353,6 @@ export class NavigationMeshPerformanceScene implements CreateSceneClass {
     private _sync(entity: YUKA.GameEntity, renderComponent: TransformNode) {
         Matrix.FromValues(...(entity.worldMatrix.elements as FlatMatrix4x4)).decomposeToTransformNode(renderComponent)
     }
-
-    // keep the BabylonJS camera viewMatrix in sync with the YUKA camera worldMatrix
-    private _syncCamera(entity: YUKA.GameEntity, camera: Camera) {
-        camera.getViewMatrix().copyFrom(Matrix.FromValues(...(entity.worldMatrix.elements as FlatMatrix4x4)).invert())
-    }
 }
 
 export default new NavigationMeshPerformanceScene()

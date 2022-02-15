@@ -30,27 +30,29 @@ import '@babylonjs/core/Debug/debugLayer'
 import '@babylonjs/inspector'
 
 //
-import { FlatMatrix4x4 } from '../../types'
 
-import { CreateSceneClass } from '../../../createScene'
+import { FlatMatrix4x4 } from '../types'
+import { CreateSceneClass } from '../../createScene'
 
 //
 
-export class SteeringArriveScene implements CreateSceneClass {
+export class TemplateScene implements CreateSceneClass {
     private _time: YUKA.Time = new YUKA.Time()
     private _entityManager = new YUKA.EntityManager()
-    private _target!: YUKA.GameEntity
 
     private _scene!: Scene
-    private _targetMesh!: Mesh
-    private _vehicleMesh!: Mesh
 
     createScene = async (engine: Engine, canvas: HTMLCanvasElement): Promise<Scene> => {
+        // init the scene
         const scene = await this._initScene(engine, canvas)
 
-        this._initModels()
+        // init your asssets
+        this._initAssets()
+
+        // init YUKA AI game engine
         await this._initGame()
 
+        // start game
         this._startGame()
 
         // await this._scene.debugLayer.show({
@@ -62,8 +64,6 @@ export class SteeringArriveScene implements CreateSceneClass {
 
     // start the game
     private _startGame() {
-        this._generateTarget()
-
         this._scene.onBeforeRenderObservable.add(() => {
             const delta = this._time.update().getDelta()
             this._entityManager.update(delta) // YUKA world step
@@ -98,73 +98,38 @@ export class SteeringArriveScene implements CreateSceneClass {
     }
 
     // init models
-    private _initModels() {
-        // vehicle
-        const vehicleMesh = MeshBuilder.CreateCylinder(
-            'cone',
-            { height: 0.5, diameterTop: 0, diameterBottom: 0.25 },
-            this._scene
-        )
-        vehicleMesh.rotation.x = Math.PI * 0.5
-        vehicleMesh.bakeCurrentTransformIntoVertices()
-        this._vehicleMesh = vehicleMesh
-
-        // bounding sphere
-        const sphere = MeshBuilder.CreateSphere('sphere', {
-            diameter: 5,
-            segments: 16,
-        })
-        const sphereMaterial = new StandardMaterial('sphereMaterial', this._scene)
-        sphereMaterial.disableLighting = true
-        sphereMaterial.emissiveColor = new Color3(0.8, 0.8, 0.8)
-        sphereMaterial.alpha = 0.2
-        sphereMaterial.wireframe = true
-        sphere.material = sphereMaterial
-
-        // target
-        const targetMesh = MeshBuilder.CreateSphere('target', {
-            diameter: 0.1,
-            segments: 16,
-        })
-        const targetMeshMaterial = new StandardMaterial('targetMaterial', this._scene)
-        targetMeshMaterial.disableLighting = true
-        targetMeshMaterial.emissiveColor = new Color3(1, 0, 0)
-        targetMesh.material = targetMeshMaterial
-        this._targetMesh = targetMesh
-    }
+    private _initAssets() {}
 
     // init
     private async _initGame() {
-        const target = new YUKA.GameEntity()
-        target.setRenderComponent(this._targetMesh, this._sync)
-        this._target = target
-
-        const vehicle = new YUKA.Vehicle()
-        vehicle.setRenderComponent(this._vehicleMesh, this._sync)
-
-        const arriveBehavior = new YUKA.ArriveBehavior(target.position, 2.5, 0.1)
-        vehicle.steering.add(arriveBehavior)
-
-        this._entityManager.add(target)
-        this._entityManager.add(vehicle)
-    }
-
-    private _generateTarget() {
-        // generate a random point on a sphere
-
-        const radius = 2
-        const phi = Math.acos(2 * Math.random() - 1)
-        const theta = Math.random() * Math.PI * 2
-
-        this._target.position.fromSpherical(radius, phi, theta)
-
-        setTimeout(this._generateTarget.bind(this), 10000)
+        // here you can initialize the YUKA based entities/classes
+        //
+        // example:
+        // const vehicle = new YUKA.Vehicle()
+        // vehicle.setRenderComponent(*YOUR MESH*, this._sync)
+        //
+        // you can add a YUKA behaviour to a YUKA entity here
+        // const arriveBehavior = new YUKA.ArriveBehavior(target.position, 2.5, 0.1)
+        // vehicle.steering.add(arriveBehavior)
+        //
+        // add the entity to the entity manager
+        // this._entityManager.add(target)
     }
 
     // keep the BabylonJS TransformNode position, rotation, scale in sync with the YUKA worldMatrix
     private _sync(entity: YUKA.GameEntity, renderComponent: TransformNode) {
+        // use this with a top level TransformNode
         Matrix.FromValues(...(entity.worldMatrix.elements as FlatMatrix4x4)).decomposeToTransformNode(renderComponent)
+
+        // use this with a child TransformNode (subject to change) or when the first option is not working for you for whatever reaason
+        // renderComponent.getWorldMatrix().copyFrom(BABYLON.Matrix.FromValues(...entity.worldMatrix.elements))
+    }
+
+    // keep the BabylonJS camera viewMatrix in sync with the YUKA camera worldMatrix
+    // sync your BabylonJS camera with YUKA using setRenderComponent(camera, this._syncCamera)
+    private _syncCamera(entity: YUKA.GameEntity, camera: Camera) {
+        camera.getViewMatrix().copyFrom(Matrix.FromValues(...(entity.worldMatrix.elements as FlatMatrix4x4)).invert())
     }
 }
 
-export default new SteeringArriveScene()
+export default new TemplateScene()
