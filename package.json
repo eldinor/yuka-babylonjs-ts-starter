@@ -1,7 +1,7 @@
 {
-    "name": "babylonjs-typescript-webpack-simple-scene",
+    "name": "yuka-babylonjs-ts-starter",
     "version": "0.0.1",
-    "description": "A simple scene using Babylon.js, typescript and webpack. What could go wrong?",
+    "description": "Yuka Game AI + Babylon.js Typescript Starter",
     "main": "index.ts",
     "dependencies": {
         "@babylonjs/core": "5.0.0-beta.7",
@@ -37,7 +37,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/RaananW/babylonjs-webpack-es6.git"
+        "url": "git+https://github.com/eldinor/yuka-babylonjs-ts-starter.git"
     },
     "keywords": [
         "Babylon.js",
@@ -47,13 +47,12 @@
         "es6"
     ],
     "author": {
-        "name": "Raanan Weber",
-        "email": "info@raananweber.com",
-        "url": "http://blog.raananweber.com/"
+        "name": "Roland Csibrei",
+        "email": "roland@babylonjs.xyz"
     },
     "license": "Apache-2.0",
     "bugs": {
-        "url": "https://github.com/RaananW/babylonjs-webpack-es6/issues"
+        "url": "https://github.com/eldinor/yuka-babylonjs-ts-starter/issues"
     },
-    "homepage": "https://github.com/RaananW/babylonjs-webpack-es6"
+    "homepage": "https://github.com/eldinor/yuka-babylonjs-ts-starter"
 }
