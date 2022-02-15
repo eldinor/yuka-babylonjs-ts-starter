@@ -34,19 +34,19 @@ import '@babylonjs/inspector'
 
 //
 
-import { CreateSceneClass } from '../../createScene'
-import { NavMeshHelper } from './common/NavMeshHelper'
+import { CreateSceneClass } from '../../../createScene'
+import { NavMeshHelper } from '../common/NavMeshHelper'
 import { PathPlanner } from './PathPlanner'
-import { CellSpacePartitioningHelper } from './common/CellSpacePartitioningHelper'
+import { CellSpacePartitioningHelper } from '../common/CellSpacePartitioningHelper'
 import { CustomVehicle } from './CustomVehicle'
 
 //
 
-import levelModel from '../../../assets/glb/level.glb'
-import navMeshModel from '../../../assets/glb/navmeshes/complex/navmesh.glb'
-import { CreateLinesOptions, FlatMatrix4x4 } from './types'
+import levelModel from '../../../../assets/glb/level.glb'
+import navMeshModel from '../../../../assets/glb/navmeshes/complex/navmesh.glb'
+import { CreateLinesOptions, FlatMatrix4x4 } from '../../types'
 
-export class YukaNavigationScene implements CreateSceneClass {
+export class NavigationMeshPerformanceScene implements CreateSceneClass {
     private _time: YUKA.Time = new YUKA.Time()
     private _entityManager = new YUKA.EntityManager()
 
@@ -360,4 +360,4 @@ export class YukaNavigationScene implements CreateSceneClass {
     }
 }
 
-export default new YukaNavigationScene()
+export default new NavigationMeshPerformanceScene()

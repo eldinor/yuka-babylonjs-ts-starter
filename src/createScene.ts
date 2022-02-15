@@ -15,7 +15,7 @@ export interface CreateSceneModule {
     default: CreateSceneClass
 }
 
-export const getSceneModuleWithName = (name = 'navmesh/navmesh'): Promise<CreateSceneClass> => {
+export const getSceneModuleWithName = (name = 'navmesh/index'): Promise<CreateSceneClass> => {
     return import('./scenes/' + name).then((module: CreateSceneModule) => {
         return module.default
     })

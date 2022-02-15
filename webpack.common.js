@@ -8,7 +8,7 @@ const appDirectory = fs.realpathSync(process.cwd())
 
 module.exports = {
     entry: {
-        navmesh: path.resolve(appDirectory, 'src/index.ts'),
+        app: path.resolve(appDirectory, 'src/index.ts'),
     },
     output: {
         filename: 'js/yuka-babylonjs.js',
@@ -55,15 +55,17 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             inject: false,
-            // filename: 'index.html',
             template: path.resolve(appDirectory, 'public/index.html'),
-            // chunks: [],
         }),
         new HtmlWebpackPlugin({
             inject: true,
-            filename: 'navmesh.html',
-            template: path.resolve(appDirectory, 'public/navmesh.html'),
-            chunks: ['navmesh'],
+            filename: 'navmesh-performance.html',
+            template: path.resolve(appDirectory, 'public/navmesh/performance/index.html'),
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            filename: 'steering-arrive.html',
+            template: path.resolve(appDirectory, 'public/steering/arrive/index.html'),
         }),
     ],
 }
