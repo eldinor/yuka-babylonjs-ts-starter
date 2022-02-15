@@ -17,7 +17,7 @@ The entry point for the entire TypeScript application is `./src/index.ts`. Any o
 
 To debug, open the browser's dev tool. Source maps are ready to be used. In case you are using VSCode, simply run the default debugger task (`Launch Chrome against localhost`) while making sure `npm start` is still running. This will allow you to debug your application straight in your editor.
 
-For more information please refer to the base project at https://github.com/RaananW/babylonjs-webpack-es6
+For more information about Typescript setup please refer to the base Typescript project at https://github.com/RaananW/babylonjs-webpack-es6
 
 For more examples please have a look at the JS based examples located at https://github.com/eldinor/yuka-babylonjs-examples
 
