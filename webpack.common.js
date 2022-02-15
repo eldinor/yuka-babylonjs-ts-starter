@@ -67,5 +67,10 @@ module.exports = {
             filename: 'steering-arrive.html',
             template: path.resolve(appDirectory, 'public/steering/arrive/index.html'),
         }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            filename: 'template.html',
+            template: path.resolve(appDirectory, 'public/template/index.html'),
+        }),
     ],
 }

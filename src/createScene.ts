@@ -22,7 +22,7 @@ export const getSceneModuleWithName = (name = 'navmesh/index'): Promise<CreateSc
 
     // To build quicker, replace the above return statement with:
 
-    // return import('./scenes/defaultWithTexture').then((module: CreateSceneModule)=> {
+    // return import('./scenes/navmesh/index').then((module: CreateSceneModule)=> {
     //     return module.default;
     // });
 }
