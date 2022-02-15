@@ -98,9 +98,11 @@ export class TemplateScene implements CreateSceneClass {
     }
 
     // init models
-    private _initAssets() {}
+    private _initAssets() {
+        // create/load your meshes
+    }
 
-    // init
+    // init YUKA
     private async _initGame() {
         // here you can initialize the YUKA based entities/classes
         //
