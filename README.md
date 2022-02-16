@@ -43,4 +43,49 @@ new HtmlWebpackPlugin({
 URL will be:
 http://localhost:8080/steering-arrive.html?scene=steering/arrive/index
 
+## Best practices
+
+1. try to avoid parented `TransformNodes` with YUKA. YUKA will place your object in world space.Use YUKA's parenting instead.
+2. you **must** scale, rotate and position your mesh before registering it as a YUKA `renderComponent` and bake the transformations into the vertices and freeze the world matrix of your mesh before doing so.
+3. you **must** register your Mesh/TransformNode/Camera on the YUKA entity by setting it as a `renderComponent` and pass the `syncFunction` which will take care of syncing your BabylonJS object's position/rotation/scaling into with the YUKA world's position.
+
+```
+const entity = new YUKA.GameEntity()
+entity.setRenderComponent(mesh, syncFunction)
+```
+
+4. `syncFunctions`:
+   For syncing a `TransformNode` with the YUKA entity use this method:
+
+```
+private _sync(entity: YUKA.GameEntity, renderComponent: TransformNode) {
+   Matrix.FromValues(...(entity.worldMatrix.elements as FlatMatrix4x4)).decomposeToTransformNode(renderComponent)
+}
+```
+
+If it doesn't work for you try this one:
+
+```
+renderComponent.getWorldMatrix().copyFrom(BABYLON.Matrix.FromValues(...entity.worldMatrix.elements))
+```
+
+For the `camera` use this:
+
+```
+private _syncCamera(entity: YUKA.GameEntity, camera: Camera) {
+    camera.getViewMatrix().copyFrom(Matrix.FromValues(...(entity.worldMatrix.elements as FlatMatrix4x4)).invert())
+}
+```
+
+5. you **must** register your YUKA entity in the `YUKA.EntityManager` with it's `add` function
+6. you **must** update the YUKA EntityManager's time (make steps in YUKA world) to make things moving like this:
+
+```
+private _time: YUKA.Time = new YUKA.Time()
+this._scene.onBeforeRenderObservable.add(() => {
+    const delta = this._time.update().getDelta()
+    this._entityManager.update(delta) // YUKA world step
+})
+```
+
 Enjoy!
