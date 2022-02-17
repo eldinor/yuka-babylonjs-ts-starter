@@ -23,6 +23,8 @@ For more examples please have a look at the JS based examples located at https:/
 
 ## Adding a new scene
 
+! Subject to change !
+
 1. Create the directory/directories in the `public` folder for the `index.html` file.
 2. Create the directory/directories in the `src/scenes` folder for the `index.ts` and additional ts files.
 3. Modify `webpack.common.js` and duplicate the `HtmlWebpackPlugin` block in the `plugins` object and replace the `filename` with the name you will use in the `url`. Set `template` path to the `index.html` on the filesystem.
