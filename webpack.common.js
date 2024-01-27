@@ -72,5 +72,20 @@ module.exports = {
             filename: 'template.html',
             template: path.resolve(appDirectory, 'public/template/index.html'),
         }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            filename: 'test.html',
+            template: path.resolve(appDirectory, 'public/test/index.html'),
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            filename: 'dva.html',
+            template: path.resolve(appDirectory, 'public/dva/index.html'),
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            filename: 'tri.html',
+            template: path.resolve(appDirectory, 'public/tri/index.html'),
+        }),
     ],
 }

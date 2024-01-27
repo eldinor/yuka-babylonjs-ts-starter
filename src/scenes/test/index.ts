@@ -34,6 +34,9 @@ import '@babylonjs/inspector'
 import { FlatMatrix4x4 } from '../types'
 import { CreateSceneClass } from '../../createScene'
 
+import { IdleState, WalkState } from './States'
+import { Girl } from './Girl'
+
 //
 
 export class TemplateScene implements CreateSceneClass {
@@ -168,6 +171,52 @@ export class TemplateScene implements CreateSceneClass {
 
         this._entityManager.add(obstacle1)
         this._entityManager.add(obstacle2)
+
+        const cylinder = MeshBuilder.CreateCylinder(
+            'cylinder',
+            { height: 1, diameter: 0.1, diameterBottom: 0.25 },
+            this._scene
+        )
+
+        cylinder.rotation.x = Math.PI * 0.5
+        cylinder.bakeCurrentTransformIntoVertices()
+
+        const vehicle2 = new YUKA.Vehicle()
+
+        vehicle2.setRenderComponent(cylinder, this._sync)
+        this._entityManager.add(vehicle2)
+
+        const girl = new Girl(cylinder, vehicle2)
+        this._entityManager.add(girl)
+
+        console.log(girl)
+
+        let target = new YUKA.Vector3(2, 2, 3)
+
+        /*
+        const arriveBehavior = new YUKA.ArriveBehavior(target, 2.5, 0.1)
+        arriveBehavior.active = false
+        vehicle2.steering.add(arriveBehavior)
+        */
+
+        const path = new YUKA.Path()
+        path.loop = true
+        path.add(new YUKA.Vector3(-4, 0, 4))
+        path.add(new YUKA.Vector3(-6, 0, 0))
+        path.add(new YUKA.Vector3(-4, 0, -4))
+        path.add(new YUKA.Vector3(-2, 0, -2))
+        path.add(new YUKA.Vector3(4, 0, -4))
+        path.add(new YUKA.Vector3(6, 0, 0))
+        path.add(new YUKA.Vector3(4, 0, 4))
+        path.add(new YUKA.Vector3(0, 0, 6))
+
+        vehicle2.position.copy(path.current())
+
+        const followPathBehavior = new YUKA.FollowPathBehavior(path, 1.5)
+        followPathBehavior.active = false
+        girl.vehicle.steering.add(followPathBehavior)
+
+        console.log(girl.vehicle.steering.behaviors)
     }
 
     // keep the BabylonJS TransformNode position, rotation, scale in sync with the YUKA worldMatrix

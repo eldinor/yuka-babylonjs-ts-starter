@@ -34,6 +34,9 @@ import '@babylonjs/inspector'
 import { FlatMatrix4x4 } from '../types'
 import { CreateSceneClass } from '../../createScene'
 
+import { IdleState, WalkState } from './States'
+import { Girl } from './Girl'
+
 //
 
 export class TemplateScene implements CreateSceneClass {
@@ -105,6 +108,7 @@ export class TemplateScene implements CreateSceneClass {
         const ground = MeshBuilder.CreateGround('ground', { width: 10, height: 10 }, this._scene)
 
         // vehicle
+        /*
         const vehicleMesh = MeshBuilder.CreateCylinder(
             'cone',
             { height: 0.5, diameterTop: 0, diameterBottom: 0.25 },
@@ -113,6 +117,7 @@ export class TemplateScene implements CreateSceneClass {
         vehicleMesh.rotation.x = Math.PI * 0.5
         vehicleMesh.bakeCurrentTransformIntoVertices()
         this._vehicleMesh = vehicleMesh
+        */
     }
 
     // init YUKA
@@ -120,7 +125,7 @@ export class TemplateScene implements CreateSceneClass {
         // here you can initialize the YUKA based entities/classes
         //
         // example:
-
+        /*
         const obstacles = new Array()
 
         const vehicle = new YUKA.Vehicle()
@@ -129,7 +134,7 @@ export class TemplateScene implements CreateSceneClass {
         // you can add a YUKA behaviour to a YUKA entity here
         // const arriveBehavior = new YUKA.ArriveBehavior(target.position, 2.5, 0.1)
         // vehicle.steering.add(arriveBehavior)
-
+      
         const wanderBehavior = new YUKA.WanderBehavior()
         wanderBehavior.distance = 0.5
         wanderBehavior.radius = 0.5
@@ -168,6 +173,85 @@ export class TemplateScene implements CreateSceneClass {
 
         this._entityManager.add(obstacle1)
         this._entityManager.add(obstacle2)
+*/
+
+        const sphere = MeshBuilder.CreateIcoSphere('ico', { radius: 0.3 })
+
+        sphere.position = new Vector3(-5, 0, 0)
+
+        const cylinder = MeshBuilder.CreateCylinder(
+            'cylinder',
+            { height: 1, diameter: 0.1, diameterBottom: 0.25 },
+            this._scene
+        )
+
+        cylinder.rotation.x = Math.PI * 0.5
+        cylinder.bakeCurrentTransformIntoVertices()
+
+        const vehicle2 = new YUKA.Vehicle()
+
+        vehicle2.setRenderComponent(cylinder, this._sync)
+        this._entityManager.add(vehicle2)
+
+        const girl = new Girl(cylinder, vehicle2, this._time)
+        this._entityManager.add(girl)
+
+        console.log(girl)
+
+        let target = new YUKA.Vector3(2, 2, 3)
+
+        const capsule = MeshBuilder.CreateCapsule('capsule', { radiusTop: 0.1, radiusBottom: 0.2 })
+        capsule.rotation.x = Math.PI * 0.5
+        capsule.bakeCurrentTransformIntoVertices()
+
+        const vehicle3 = new YUKA.Vehicle()
+        vehicle3.setRenderComponent(capsule, this._sync)
+        this._entityManager.add(vehicle3)
+
+        const girl2 = new Girl(capsule, vehicle3, this._time)
+        this._entityManager.add(girl2)
+
+        console.log(girl2)
+
+        /*
+        const arriveBehavior = new YUKA.ArriveBehavior(target, 2.5, 0.1)
+        arriveBehavior.active = false
+        vehicle2.steering.add(arriveBehavior)
+        */
+
+        const path = new YUKA.Path()
+        path.loop = false
+        path.add(new YUKA.Vector3(-2, 0, 2))
+
+        path.add(new YUKA.Vector3(3, 0, 1))
+
+        path.add(new YUKA.Vector3(-1, 0, -1))
+        /*
+        path.add(new YUKA.Vector3(-2, 0, -2))
+        path.add(new YUKA.Vector3(4, 0, -4))
+        path.add(new YUKA.Vector3(6, 0, 0))
+        path.add(new YUKA.Vector3(4, 0, 4))
+        path.add(new YUKA.Vector3(0, 0, 6))
+*/
+        vehicle2.position.copy(path.current())
+
+        const path2 = new YUKA.Path()
+        path2.loop = false
+        path2.add(new YUKA.Vector3(2, 0, 2))
+
+        path2.add(new YUKA.Vector3(-3, 0, 1))
+
+        path2.add(new YUKA.Vector3(-1, 0, -4))
+
+        const followPathBehavior = new YUKA.FollowPathBehavior(path, 1.5)
+        followPathBehavior.active = false
+        girl.vehicle.steering.add(followPathBehavior)
+
+        console.log(girl.vehicle.steering.behaviors)
+
+        const followPathBehavior2 = new YUKA.FollowPathBehavior(path2, 1.5)
+        followPathBehavior.active = false
+        girl2.vehicle.steering.add(followPathBehavior2)
     }
 
     // keep the BabylonJS TransformNode position, rotation, scale in sync with the YUKA worldMatrix
