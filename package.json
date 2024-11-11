@@ -4,8 +4,8 @@
     "description": "Yuka Game AI + Babylon.js Typescript Starter",
     "main": "index.ts",
     "dependencies": {
-        "@babylonjs/core": "5.0.0-beta.7",
-        "@babylonjs/loaders": "5.0.0-beta.7",
+        "@babylonjs/core": "7.33.0",
+        "@babylonjs/loaders": "7.33.0",
         "@types/dat.gui": "^0.7.7",
         "@types/yuka": "^0.7.1",
         "ammo.js": "github:kripken/ammo.js",
@@ -13,11 +13,11 @@
         "yuka": "^0.7.7"
     },
     "devDependencies": {
-        "@babylonjs/inspector": "^5.0.0-beta.7",
-        "@typescript-eslint/eslint-plugin": "^2.30.0",
-        "@typescript-eslint/parser": "^2.30.0",
+        "@babylonjs/inspector": "^7.33.0",
+        "@typescript-eslint/eslint-plugin": "^8.13.0",
+        "@typescript-eslint/parser": "^8.13.0",
         "clean-webpack-plugin": "^3.0.0",
-        "eslint": "^7.32.0",
+        "eslint": "^9.14.0",
         "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.5.0",
         "source-map-loader": "^3.0.1",
